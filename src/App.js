@@ -28,35 +28,122 @@ const App = () => {
   useEffect(() => {
     const checkAuth = () => {
       try {
-        const token = localStorage.getItem('token');
-        const userData = localStorage.getItem('user');
+        console.log('🚀 App.js - Starting authentication check');
+        console.log('📍 Current URL:', window.location.href);
+        console.log('🔍 Pathname:', window.location.pathname);
+        console.log('🔍 Search:', window.location.search);
         
-        console.log('App.js - Auth check:', { 
-          hasToken: !!token, 
-          hasUserData: !!userData 
+        // Method 1: Check URL parameters using URL constructor (most reliable)
+        let token, userParam;
+        try {
+          const url = new URL(window.location.href);
+          token = url.searchParams.get('token');
+          userParam = url.searchParams.get('user');
+        } catch (e) {
+          // Fallback to URLSearchParams
+          const urlParams = new URLSearchParams(window.location.search);
+          token = urlParams.get('token');
+          userParam = urlParams.get('user');
+        }
+
+        console.log('📦 URL Parameters Found:', {
+          token: token ? `PRESENT (${token.substring(0, 20)}...)` : 'MISSING',
+          user: userParam ? `PRESENT (${userParam.substring(0, 50)}...)` : 'MISSING'
         });
 
-        if (token && userData) {
+        // PROCESS OAUTH CALLBACK FROM URL
+        if (token && userParam) {
+          console.log('🎯 PROCESSING OAUTH CALLBACK FROM URL');
+          
           try {
-            const user = JSON.parse(userData);
+            // Step 1: Decode the URL-encoded user data
+            console.log('🔄 Step 1: Decoding user data...');
+            const decodedUser = decodeURIComponent(userParam);
+            console.log('✅ Decoded user string:', decodedUser);
+
+            // Step 2: Parse JSON
+            console.log('🔄 Step 2: Parsing JSON...');
+            const userData = JSON.parse(decodedUser);
+            console.log('✅ Parsed user data:', userData);
+
+            // Step 3: Store in localStorage
+            console.log('🔄 Step 3: Storing in localStorage...');
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(userData));
+            console.log('✅ localStorage set');
+
+            // Step 4: Set axios header
+            console.log('🔄 Step 4: Setting axios header...');
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            setUser(user);
-            console.log('User authenticated:', user.email);
-          } catch (parseError) {
-            console.error('Error parsing stored user data:', parseError);
+            
+            // Step 5: Set React state
+            console.log('🔄 Step 5: Setting React state...');
+            setUser(userData);
+            
+            // Step 6: Clean URL
+            console.log('🔄 Step 6: Cleaning URL...');
+            const cleanPath = window.location.pathname === '/' ? '/' : '/albums';
+            window.history.replaceState({}, document.title, cleanPath);
+            
+            console.log('✅ ✅ ✅ OAUTH PROCESSING COMPLETE - USER AUTHENTICATED');
+            setLoading(false);
+            return;
+            
+          } catch (error) {
+            console.error('❌ ERROR PROCESSING OAUTH DATA:', error);
+            console.error('Error details:', error.message);
             localStorage.removeItem('token');
             localStorage.removeItem('user');
           }
         }
+
+        // CHECK LOCALSTORAGE FOR EXISTING AUTH
+        console.log('🔍 Checking localStorage for existing auth...');
+        const storedToken = localStorage.getItem('token');
+        const storedUser = localStorage.getItem('user');
+        
+        console.log('💾 LocalStorage Contents:', {
+          token: storedToken ? `PRESENT (${storedToken.substring(0, 20)}...)` : 'MISSING',
+          user: storedUser ? 'PRESENT' : 'MISSING'
+        });
+
+        if (storedToken && storedUser) {
+          try {
+            console.log('🔄 Processing stored authentication...');
+            const userData = JSON.parse(storedUser);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+            setUser(userData);
+            console.log('✅ User authenticated from localStorage:', userData.email);
+          } catch (error) {
+            console.error('❌ Error parsing stored user:', error);
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            setUser(null);
+          }
+        } else {
+          console.log('❌ No authentication found anywhere');
+          setUser(null);
+        }
+        
       } catch (error) {
-        console.error('Auth check error:', error);
+        console.error('💥 CRITICAL Auth check error:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
       } finally {
+        console.log('🏁 Auth check completed - Loading:', false);
         setLoading(false);
       }
     };
 
-    checkAuth();
+    // Add a small delay to ensure everything is loaded
+    setTimeout(checkAuth, 100);
   }, []);
+
+  // Debug: Log when user state changes
+  useEffect(() => {
+    console.log('🔄 User state updated:', user ? user.email : 'null');
+  }, [user]);
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -74,6 +161,8 @@ const App = () => {
       </div>
     );
   }
+
+  console.log('🎯 FINAL APP RENDER - User:', user ? user.email : 'Not authenticated');
 
   return (
     <ToastProvider>
