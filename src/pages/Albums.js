@@ -22,7 +22,7 @@ const Albums = () => {
   const [albumName, setAlbumName] = useState('');
   const [albumDescription, setAlbumDescription] = useState('');
   const navigate = useNavigate();
-  const { success, error, info } = useToast();
+  const { success, error } = useToast();
 
   useEffect(() => {
     loadAlbums();
