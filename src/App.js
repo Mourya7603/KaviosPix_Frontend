@@ -14,7 +14,7 @@ import Trash from './pages/Trash';
 import AuthSuccess from './pages/AuthSuccess';
 import AuthError from './pages/AuthError';
 import './App.css';
-import './components/Toast.css'; // Import toast styles
+import './components/Toast.css';
 
 // API configuration
 axios.defaults.baseURL = 'https://kavios-pix-backend-blond.vercel.app';
@@ -27,22 +27,32 @@ const App = () => {
   // Check if user is logged in when app starts
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem('token');
-      const userData = localStorage.getItem('user');
-      
-      if (token && userData) {
-        try {
-          const user = JSON.parse(userData);
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          setUser(user);
-          console.log('User found:', user.email);
-        } catch (error) {
-          console.error('Error parsing user data');
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+      try {
+        const token = localStorage.getItem('token');
+        const userData = localStorage.getItem('user');
+        
+        console.log('App.js - Auth check:', { 
+          hasToken: !!token, 
+          hasUserData: !!userData 
+        });
+
+        if (token && userData) {
+          try {
+            const user = JSON.parse(userData);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            setUser(user);
+            console.log('User authenticated:', user.email);
+          } catch (parseError) {
+            console.error('Error parsing stored user data:', parseError);
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+          }
         }
+      } catch (error) {
+        console.error('Auth check error:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     checkAuth();

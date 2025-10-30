@@ -456,15 +456,6 @@ const Upload = () => {
             )}
           </button>
         </div>
-
-        {/* Cloudinary Info */}
-        <div className="cloudinary-info">
-          <RiCloudLine className="cloudinary-icon" />
-          <div className="cloudinary-details">
-            <h4>Cloudinary Storage</h4>
-            <p>Your photos will be securely stored in Cloudinary with automatic optimization and fast delivery.</p>
-          </div>
-        </div>
       </div>
     </div>
   );
