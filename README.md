@@ -1,70 +1,153 @@
-# Getting Started with Create React App
+# KaviosPix - Personal Photo Gallery
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A beautiful, secure personal photo gallery application that allows you to store, organize, and share your precious memories with friends and family.
 
-## Available Scripts
+🌐 **Live Demo:** [kavios-pix-frontend.vercel.app](https://kavios-pix-frontend.vercel.app)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Core Functionality
+- **User Authentication** - Secure sign-in to access personal photos and albums
+- **Unlimited Photo Storage** - Store all your memories without worrying about space
+- **Album Organization** - Create and manage photo albums for different events and moments
+- **Photo Sharing** - Share photos and albums with friends and family
+- **Privacy Control** - Your photos remain secure and private
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### User Experience
+- **Responsive Design** - Access your gallery from any device (desktop, tablet, mobile)
+- **Modern UI** - Clean, intuitive interface for easy navigation
+- **Fast Loading** - Optimized image loading for smooth browsing
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Technologies
 
-### `npm run build`
+| Category | Technologies |
+|----------|-------------|
+| **Frontend** | React.js, React Router |
+| **Styling** | CSS3 / Tailwind CSS |
+| **Authentication** | JWT / OAuth (based on implementation) |
+| **HTTP Client** | Axios |
+| **Image Optimization** | Lazy loading, responsive images |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀 Quick Start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+bash
+# Clone the repository
+git clone https://github.com/Mourya7603/kavios-pix-frontend.git
+cd kavios-pix-frontend
 
-### `npm run eject`
+# Install dependencies
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Start development server
+npm start
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Build for production
+npm run build
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📡 API Integration
 
-## Learn More
+This frontend connects to a backend API for photo storage, user authentication, and sharing functionality.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Expected API Endpoints
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/auth/login` | User login |
+| POST | `/auth/signup` | User registration |
+| GET | `/photos` | Fetch user's photos |
+| POST | `/photos/upload` | Upload new photo |
+| DELETE | `/photos/:id` | Delete photo |
+| GET | `/albums` | Fetch user's albums |
+| POST | `/albums` | Create new album |
+| PUT | `/albums/:id` | Update album |
+| POST | `/albums/:id/share` | Share album with others |
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🎯 Key Features Breakdown
 
-### Analyzing the Bundle Size
+### Authentication
+- Secure signup and login system
+- Protected routes for authenticated users
+- Session management with JWT tokens
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Photo Management
+- Upload photos in various formats (JPEG, PNG, GIF, etc.)
+- Automatic image optimization
+- Bulk upload support
+- Delete and organize photos
 
-### Making a Progressive Web App
+### Album Organization
+- Create custom albums for different events
+- Add/remove photos from albums
+- Edit album titles and descriptions
+- Cover photo selection
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Sharing & Privacy
+- Share individual photos or entire albums
+- Generate shareable links
+- Control viewer permissions
+- Private gallery by default
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🔒 Security Features
 
-### Deployment
+- **Authentication Required** - All photos are private until explicitly shared
+- **Secure API Communication** - All requests use authentication tokens
+- **Image Protection** - Shared links use secure, expiring tokens
+- **Data Privacy** - Your photos are stored securely
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 📱 Responsive Design
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The application works seamlessly across all devices:
+
+| Device | Experience |
+|--------|------------|
+| **Desktop** | Full grid layout with advanced features |
+| **Tablet** | Adjusted grid and touch-friendly controls |
+| **Mobile** | Optimized for smaller screens with easy navigation |
+
+---
+
+## 🚦 Future Enhancements
+
+- [ ] Photo editing tools (crop, rotate, filters)
+- [ ] Facial recognition for automatic tagging
+- [ ] Slideshow mode for albums
+- [ ] Download photos as ZIP archive
+- [ ] Integration with Google Photos / iCloud
+- [ ] Mobile app (React Native)
+- [ ] AI-powered photo organization
+- [ ] Comments and likes on shared photos
+
+---
+
+## 📧 Contact
+
+**Developer:** Mangalapalli Mourya
+
+**Email:** magalapallimourya@gmail.com
+
+**GitHub:** [@Mourya7603](https://github.com/Mourya7603)
+
+---
+
+## 🔗 Repository
+
+- **Frontend:** [kavios-pix-frontend](https://github.com/Mourya7603/kavios-pix-frontend)
+- **Backend:** [kavios-pix-backend](https://github.com/Mourya7603/kavios-pix-backend) *(if applicable)*
+
+---
+
+⭐ If you find this project helpful, please give it a star on GitHub!
